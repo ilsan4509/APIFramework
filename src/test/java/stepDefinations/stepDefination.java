@@ -4,6 +4,8 @@ import static io.restassured.RestAssured.given;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -24,10 +26,7 @@ public class stepDefination extends Utils {
 	TestDataBuild data = new TestDataBuild();
 	
 	@Given("Add Place Payload")
-	public void add_Place_Payload() {
-		// Build a reusable response specification
-		resspec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-		
+	public void add_Place_Payload() throws FileNotFoundException {
 		// Prepare and send the request using spec builder
 		res = given().spec(requestSpecification())
 		.body(data.addPlacePayLoad()); // Attach POJO as request body
@@ -36,6 +35,7 @@ public class stepDefination extends Utils {
 	
 	@When("user calls {string} with post http request")
 	public void user_calls_with_http_request(String string) {
+		resspec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
 		response = res.when().post("/maps/api/place/add/json")
 			.then().spec(resspec).extract().response();
 	}

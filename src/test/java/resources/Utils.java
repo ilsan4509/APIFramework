@@ -1,8 +1,10 @@
 package resources;
 
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Properties;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -13,12 +15,14 @@ import io.restassured.specification.RequestSpecification;
 
 public class Utils {
 	RequestSpecification req;
-	public RequestSpecification requestSpecification() throws FileNotFoundException {
+	
+	// Method to create a reusable request specification with base URI, query parameters, and logging filters
+	public RequestSpecification requestSpecification() throws IOException {
 		PrintStream log = new PrintStream(new FileOutputStream("logging.txt"));
 		RestAssured.baseURI = "https://rahulshettyacademy.com";
 		
 		// Build a reusable request specification
-		req = new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com").addQueryParam("key", "qaclick123")
+		req = new RequestSpecBuilder().setBaseUri(getGlobalValue("baseUrl")).addQueryParam("key", "qaclick123")
 				.addFilter(RequestLoggingFilter.logRequestTo(log))
 				.addFilter(ResponseLoggingFilter.logResponseTo(log))
 		.setContentType(ContentType.JSON).build();
@@ -26,6 +30,11 @@ public class Utils {
 		return req;
 	}
 	
-	
-
+	 // Method to read global values from a properties file
+	public static String getGlobalValue(String key) throws IOException {
+		Properties prop = new Properties();
+		FileInputStream fis = new FileInputStream("global.properties"); // Open properties file
+		prop.load(fis);
+		return prop.getProperty(key);
+	}
 }

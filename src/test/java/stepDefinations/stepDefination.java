@@ -25,11 +25,12 @@ public class stepDefination extends Utils {
 	Response response;
 	TestDataBuild data = new TestDataBuild();
 	
-	@Given("Add Place Payload")
-	public void add_Place_Payload() throws IOException {
+	@Given("Add Place Payload with {string} {string} {string}")  
+	public void add_Place_Payload(String name, String language, String address) throws IOException {
 		// Prepare and send the request using spec builder
+		// The payload is created dynamically based on the name, language, and address provided from the feature file
 		res = given().spec(requestSpecification())
-		.body(data.addPlacePayLoad()); // Attach POJO as request body
+		.body(data.addPlacePayLoad(name, language, address)); // Attach POJO as request body
 		
 	}
 	

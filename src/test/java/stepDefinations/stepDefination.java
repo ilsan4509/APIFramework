@@ -18,7 +18,7 @@ import io.restassured.specification.ResponseSpecification;
 import resources.TestDataBuild;
 import resources.Utils;
 
-public class stepDefination extends Utils {
+public class StepDefination extends Utils {
 	
 	RequestSpecification res;
 	ResponseSpecification resspec;
@@ -34,7 +34,7 @@ public class stepDefination extends Utils {
 		
 	}
 	
-	@When("user calls {string} with post http request")
+	@When("user calls {string} with Post http request")
 	public void user_calls_with_http_request(String string) {
 		resspec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
 		response = res.when().post("/maps/api/place/add/json")
@@ -53,8 +53,8 @@ public class stepDefination extends Utils {
 		assertEquals(js.get(keyValue).toString(), expectedValue);
 	}
 	
-	@Then("{string} in response body is {string}")
-	public void in_response_body_is_2(String string, String string2) {
-		
-	}
+//	@Then("{string} in response body is {string}")
+//	public void in_response_body_is_2(String string, String string2) {
+//		
+//	}
 }

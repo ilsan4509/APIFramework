@@ -33,7 +33,7 @@ public class Utils {
 	 // Method to read global values from a properties file
 	public static String getGlobalValue(String key) throws IOException {
 		Properties prop = new Properties();
-		FileInputStream fis = new FileInputStream("global.properties"); // Open properties file
+		FileInputStream fis = new FileInputStream("src/test/java/resources/global.properties"); // Open properties file
 		prop.load(fis);
 		return prop.getProperty(key);
 	}

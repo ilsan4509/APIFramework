@@ -9,10 +9,5 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(features = "src/test/java/features", glue = {"stepDefinations"})  // Specify the location of feature files and step definitions
 public class TestRunner {
 	
-//	 @Test
-//	 public void testMethod() {
-//	        // Test code here
-//    }
-	
 
 }

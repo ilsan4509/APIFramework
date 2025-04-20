@@ -14,20 +14,24 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
 public class Utils {
-	RequestSpecification req;
+	public static RequestSpecification req;
 	
 	// Method to create a reusable request specification with base URI, query parameters, and logging filters
 	public RequestSpecification requestSpecification() throws IOException {
-		PrintStream log = new PrintStream(new FileOutputStream("logging.txt"));
-		RestAssured.baseURI = "https://rahulshettyacademy.com";
 		
-		// Build a reusable request specification
-		req = new RequestSpecBuilder().setBaseUri(getGlobalValue("baseUrl")).addQueryParam("key", "qaclick123")
-				.addFilter(RequestLoggingFilter.logRequestTo(log))
-				.addFilter(ResponseLoggingFilter.logResponseTo(log))
-		.setContentType(ContentType.JSON).build();
-		
-		return req;
+		if (req == null) {
+			PrintStream log = new PrintStream(new FileOutputStream("logging.txt"));
+			RestAssured.baseURI = "https://rahulshettyacademy.com";
+			
+			// Build a reusable request specification
+			req = new RequestSpecBuilder().setBaseUri(getGlobalValue("baseUrl")).addQueryParam("key", "qaclick123")
+					.addFilter(RequestLoggingFilter.logRequestTo(log))
+					.addFilter(ResponseLoggingFilter.logResponseTo(log))
+			.setContentType(ContentType.JSON).build();
+			
+			return req;	
+		} 
+		return req;	
 	}
 	
 	 // Method to read global values from a properties file

@@ -15,6 +15,7 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import resources.APIResources;
 import resources.TestDataBuild;
 import resources.Utils;
 
@@ -34,10 +35,14 @@ public class StepDefination extends Utils {
 		
 	}
 	
-	@When("user calls {string} with Post http request")
-	public void user_calls_with_http_request(String string) {
+	@When("user calls {string} with {string} http request")
+	public void user_calls_with_http_request(String resource, String string) {
+		
+		APIResources resourceAPI = APIResources.valueOf(resource);
+		System.out.println(resourceAPI.getResource());
+		
 		resspec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-		response = res.when().post("/maps/api/place/add/json")
+		response = res.when().post(resourceAPI.getResource())
 			.then().spec(resspec).extract().response();
 	}
 	

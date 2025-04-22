@@ -36,14 +36,18 @@ public class StepDefination extends Utils {
 	}
 	
 	@When("user calls {string} with {string} http request")
-	public void user_calls_with_http_request(String resource, String string) {
-		
+	public void user_calls_with_http_request(String resource, String method) {
+		// constructor will be called with value of resource which you pass
 		APIResources resourceAPI = APIResources.valueOf(resource);
 		System.out.println(resourceAPI.getResource());
 		
 		resspec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-		response = res.when().post(resourceAPI.getResource())
-			.then().spec(resspec).extract().response();
+		
+		if (method.equalsIgnoreCase("POST")) {
+			response = res.when().post(resourceAPI.getResource());
+		} else if (method.equalsIgnoreCase("GET")) {
+			response = res.when().get(resourceAPI.getResource());
+		}
 	}
 	
 	@Then("the API call got success with status code {int}")

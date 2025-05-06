@@ -24,6 +24,7 @@ public class StepDefination extends Utils {
 	ResponseSpecification resspec;
 	Response response;
 	TestDataBuild data = new TestDataBuild();
+	static String place_id;
 	
 	@Given("Add Place Payload with {string} {string} {string}")  
 	public void add_Place_Payload(String name, String language, String address) throws IOException {
@@ -56,19 +57,27 @@ public class StepDefination extends Utils {
 	
 	@Then("{string} in response body is {string}")
 	public void in_response_body_is_1(String keyValue, String expectedValue) {
-
 		assertEquals(getJsonPath(response, keyValue), expectedValue);
 	}
 	
 	
-	@Then("verify place_Id created maps to {String} using {String}")
-	public void verify_place_Id_created_maps_to_using(String string, String string2) throws IOException {
-		// requestSpec
-		String place_id = getJsonPath(response, "place_id");
+	@Then("verify place_Id created maps to {string} using {string}")
+	public void verify_place_Id_created_maps_to_using(String expectedName, String resource) throws IOException {
+		// Extract the place_id from the response using JSONPath
+		place_id = getJsonPath(response, "place_id");
+		// Prepare the GET request with place_id as a query parameter
 		res = given().spec(requestSpecification()).queryParam("place_id", place_id);
+		user_calls_with_http_request(resource, "GET");
+		String actualName = getJsonPath(response, "name");
+		assertEquals(actualName, expectedName);
+		
 	}
 	
 	
-	
-
+	@Given("DeletePlace Payload")
+	public void delete_place_payload() throws IOException {
+		// Create a payload for the DeletePlace API request
+	    res = given().spec(requestSpecification())
+	        .body(data.deletePlacePayload(place_id)); 
+	}
 }

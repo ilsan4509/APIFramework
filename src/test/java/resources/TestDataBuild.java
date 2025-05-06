@@ -30,5 +30,10 @@ public class TestDataBuild {
 		
 		return p;
 	}
+	
+	public String deletePlacePayload(String placeId) {
+		// Return the JSON payload as a string, with the provided placeId included
+		return "{\r\n    \"place_id\":\""+placeId+"\"\r\n}";
+	}
 
 }
